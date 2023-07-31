@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './component/Home/Home.component';
+import EventCreation from './component/EventCreation/EventCreation.component';
+import EventListing from './component/EventListing/EventListing.component';
+import UserRegistration from './component/UserRegistration/UserRegistration.component';
+import AttendeeList from './component/AttendeeList/AttendeeList.component';
+import EventDetails from './component/EventDetails/EventDetails.component';
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+  
+      <Routes>
+          <Route index element={<Home />} />
+          <Route path='eventCreation/*' element={<EventCreation />} />
+          <Route path='eventListing' element={<EventListing />} />
+          <Route path='userRegistration' element={<UserRegistration />} />
+          <Route path='attendeeList' element={<AttendeeList/>} />
+          <Route path='eventDetails' element={<EventDetails/>} />
+       
+       
+      </Routes>
+    );
+  };
+ 
+
 
 export default App;
