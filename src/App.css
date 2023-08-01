@@ -2,6 +2,19 @@
   text-align: center;
 }
 
+img {
+  max-width: 150px;
+  margin: 2px;
+}
+
+.bg{
+  background-image: url(./img/backgrndimg.png);
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +48,9 @@
   to {
     transform: rotate(360deg);
   }
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
 }

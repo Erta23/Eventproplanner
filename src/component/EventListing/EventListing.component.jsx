@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './EventListing.styles.scss';
 
 const EventListing = () => {
   return (

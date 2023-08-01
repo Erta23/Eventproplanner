@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './AttendeeList.styles.scss';
 
 const AttendeeList = ({ eventId }) => {
   const attendees = [

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './EventDetails.styles.scss';
 
 const EventDetails = ({ eventId }) => {
   const eventDetails = {
