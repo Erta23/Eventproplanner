@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Home.styles.scss';
 import Navigation from '../Navigation/Navigation.component'; 
-
+import HomePage from '../Homepage/Homepage.component';
 import backgroundImage from '../../img/backgrndimg.png';
 
 const Home = () => {

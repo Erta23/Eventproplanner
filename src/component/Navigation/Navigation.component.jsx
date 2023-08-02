@@ -12,7 +12,8 @@ const Navigation = () => {
       <Link className="logo-container" to='/'>
         <EVENTLogo className='logo' />
       </Link>
-      
+      <div class="Event Pro Planner">
+        </div>
       <ul className="nav-links">
         <li>
           <Link to="/events">HomePage</Link>

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Navigation from './component/Navigation/Navigation.component';
 import Home from './component/Home/Home.component';
+import HomePage from './component/Homepage/Homepage.component';
 import EventCreation from './component/EventCreation/EventCreation.component';
 import EventListing from './component/EventListing/EventListing.component';
 import UserRegistration from './component/UserRegistration/UserRegistration.component';
@@ -20,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Navigation />}>
           <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/eventCreation/*" element={<EventCreation />} />
           <Route path="/eventListing" element={<EventListing />} />
           <Route path="/userRegistration" element={<UserRegistration />} />
