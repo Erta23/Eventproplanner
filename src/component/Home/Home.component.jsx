@@ -16,6 +16,7 @@ const Home = () => {
 
   return (
     <div className="home" style={containerStyle}>
+      <Navigation/>
       <div className="content">
         <h2>Welcome to the Event Registration Platform</h2>
         <p>

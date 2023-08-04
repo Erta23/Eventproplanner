@@ -3,32 +3,20 @@ import './EventDetails.styles.scss';
 
 const EventDetails = ({ eventId }) => {
   const eventDetails = {
-    name: 'Sample Event',
+    eventName: 'Sample Event',
     description: 'This is a sample event description.',
-    date: '2023-08-15',
+    date: '2023-08-10',
     location: 'Sample Location',
-    attendees: [
-      { _id: 1, name: 'John Doe', email: 'john@example.com' },
-      { _id: 2, name: 'Jane Smith', email: 'jane@example.com' },
-  
-    ],
+    organizer: 'Sample Organizer',
   };
 
   return (
     <div>
-      <h2>{eventDetails.name}</h2>
-      <p>Description: {eventDetails.description}</p>
+      <h1>{eventDetails.eventName}</h1>
+      <p>{eventDetails.description}</p>
       <p>Date: {eventDetails.date}</p>
       <p>Location: {eventDetails.location}</p>
-      <h3>Attendees</h3>
-      <ul>
-        {eventDetails.attendees.map((attendee) => (
-          <li key={attendee._id}>
-            <p>Name: {attendee.name}</p>
-            <p>Email: {attendee.email}</p>
-          </li>
-        ))}
-      </ul>
+      <p>Organizer: {eventDetails.organizer}</p>
     </div>
   );
 };

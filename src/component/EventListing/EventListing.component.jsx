@@ -1,29 +1,28 @@
 import React from 'react';
 import './EventListing.styles.scss';
+import { Link } from 'react-router-dom';
 
 const EventListing = () => {
-  return (
-    <div>
-      <h2>Event Listing</h2>
-      <ul>
-        <li>
-          <h3>Event 1</h3>
-          <p>Description: Lorem ipsum dolor sit amet.</p>
-          <p>Date: 2023-08-15</p>
-          <p>Location: New York City</p>
-          <p>Organizer: John Doe</p>
-        </li>
-        <li>
-          <h3>Event 2</h3>
-          <p>Description: Consectetur adipiscing elit.</p>
-          <p>Date: 2023-08-20</p>
-          <p>Location: San Francisco</p>
-          <p>Organizer: Jane Smith</p>
-        </li>
-
-      </ul>
-    </div>
-  );
+  const EventListing = () => {
+   
+    const events = [
+      { id: 1, name: 'Event 1' },
+      { id: 2, name: 'Event 2' },
+    
+    ];
+  
+    return (
+      <div>
+        <h1>Event Listing</h1>
+        <ul>
+          {events.map((event) => (
+            <li key={event.id}>
+              <Link to={`/eventDetails/${event.id}`}>{event.name}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
 };
-
-export default EventListing;
+  export default EventListing;
