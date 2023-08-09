@@ -1,45 +1,42 @@
-import React, { useState } from 'react';
-import './UserLogin.styles.scss';
+import React, { useState } from "react";
+import axios from "axios";
+import "./UserLogin.styles.scss";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
- 
+  const onValueChanged = (field, e) => {
+    user[field] = e.target.value;
+    setUser(user);
+  };
+
+  const onLogin = () => {
+    axios.post("http://localhost:3001/login", user).then((response) => {
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+
+      window.location = "/";
+    });
   };
 
   return (
     <div className="login-form">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-      <div class="form-container">
-	<p class="title">Login</p>
-	<form class="form"></form>
-		<div class="input-group">
-			<label for="username">Username</label>
-			input type="text" name="username" id="username" placeholder=""
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            </div>
-        </div>
-        <div class="input-group">
-			<label for="password">Password</label>
-			input type="password" name="password" id="password" placeholder=""
-			<div class="forgot">
-				<a rel="noopener noreferrer" href="#">Forgot Password ?</a>
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-        </div>
-        </div>
-        <button type="submit">Login</button>
-        <p class="signup">Don't have an account?
-		<a rel="noopener noreferrer" href="#" class="">Sign up</a>
-	</p>
-
+      <form>
+        <label>
+          Email:
+          <input type="text" onChange={(e) => onValueChanged("email", e)} />
+        </label>
+        <label>
+          Password:
+          <input
+            type="password"
+            onChange={(e) => onValueChanged("password", e)}
+          />
+        </label>
+        <button onClick={onLogin} type="button">
+          Login
+        </button>
       </form>
     </div>
   );

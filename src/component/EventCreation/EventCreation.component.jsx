@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import axios from "axios";
-import './EventCreation.styles.scss';
+import "./EventCreation.styles.scss";
 
 const EventCreation = () => {
-
   const [event, setEvent] = useState({});
 
   const onValueChanged = (field, e) => {
     event[field] = e.target.value;
     setEvent(event);
-  }
+  };
 
   const onEventCreated = () => {
-    axios.post("http://localhost:3001/events", event);
+    axios.post("http://localhost:3001/events", event).then(response => {
+      window.location = "/events";
+    })
   };
 
   return (
@@ -21,25 +22,30 @@ const EventCreation = () => {
       <form>
         <label>
           Event Name:
-          <input type="text" onChange={e => onValueChanged("name", e)} />
+          <input type="text" onChange={(e) => onValueChanged("name", e)} />
         </label>
         <label>
           Description:
-          <textarea onChange={e => onValueChanged("description", e)} />
+          <textarea onChange={(e) => onValueChanged("description", e)} />
         </label>
         <label>
           Date:
-          <input type="date" onChange={e => onValueChanged("date", e)} />
+          <input type="date" onChange={(e) => onValueChanged("date", e)} />
         </label>
         <label>
           Location:
-          <input type="text" onChange={e => onValueChanged("location", e)}  />
+          <input type="text" onChange={(e) => onValueChanged("location", e)} />
         </label>
         <label>
           Organizer:
-          <input type="text"onChange={e => onValueChanged("organizator", e)} />
+          <input
+            type="text"
+            onChange={(e) => onValueChanged("organizator", e)}
+          />
         </label>
-        <button onClick={onEventCreated} type="button">Create Event</button>
+        <button onClick={onEventCreated} type="button">
+          Create Event
+        </button>
       </form>
     </div>
   );

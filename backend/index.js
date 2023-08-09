@@ -18,6 +18,8 @@ app.use(
   })
 );
 
+const jwt = require("jsonwebtoken");
+
 const eventSchema = new mongoose.Schema({
   name: String,
   date: Date,
@@ -28,22 +30,76 @@ const eventSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-  name: String,
+  firstname: String,
+  lastname: String,
   email: String,
   phone: String,
+  password: String,
+  role: String,
 });
 
 const Event = mongoose.model("Event", eventSchema);
 
 const User = mongoose.model("User", userSchema);
 
+const checkToken = (req, res, checkAdmin = false) => {
+  if (!req.headers.authorization) {
+    res.status(401).end();
+    return false;
+  }
+
+  const token = req.headers.authorization.split(" ")[1];
+
+  const decodedToken = jwt.verify(token, "secret");
+
+  if (!decodedToken) {
+    res.status(401).end();
+    return false;
+  }
+
+  if (checkAdmin && decodedToken.role !== "Admin") {
+    res.status(403).end();
+    return false;
+  }
+
+  return true;
+};
+
+app.post("/login", (req, res) => {
+  const body = req.body;
+  const { email, password } = body;
+
+  User.findOne({ email: email, password: password }).then((user) => {
+    if (!user) {
+      return res.status(401).end();
+    }
+
+    const token = jwt.sign(
+      {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        role: user.role,
+      },
+      "secret"
+    );
+    return res.json({ token: token }).end();
+  });
+});
+
 app.get("/events", (req, res) => {
+  const tokenResult = checkToken(req, res);
+  if (!tokenResult) {
+    return;
+  }
+
   Event.find({}).then((events) => {
     res.json(events);
   });
 });
 
 app.get("/events/:id", (req, res) => {
+  checkToken(req, res);
   const idToFind = req.params.id;
 
   Event.findById(idToFind).then((event) => {
@@ -52,6 +108,10 @@ app.get("/events/:id", (req, res) => {
 });
 
 app.put("/events/:id", (req, res) => {
+  const isValid = checkToken(req, res, true);
+  if(!isValid) {
+    return;
+  }
   const idToUpdate = req.params.id;
   const body = req.body;
   const { name, description, location, organizer, rating } = body;
@@ -88,6 +148,11 @@ app.put("/events/:id", (req, res) => {
 });
 
 app.post("/events", (req, res) => {
+  const tokenValid = checkToken(req, res, true);
+  if (!tokenValid) {
+    return;
+  }
+
   const body = req.body;
   const { name, description, location, organizer, rating } = body;
 
@@ -115,6 +180,7 @@ app.post("/events", (req, res) => {
 });
 
 app.delete("/events/:id", (req, res) => {
+  checkToken(req, res);
   const idToDelete = req.params.id;
   Event.exists({ _id: idToDelete })
     .then((exists) => {
@@ -131,11 +197,13 @@ app.delete("/events/:id", (req, res) => {
     });
 });
 app.get("/users", (req, res) => {
+  checkToken(req, res);
   User.find({}).then((users) => {
     res.json(users);
   });
 });
 app.get("/users/:id", (req, res) => {
+  checkToken(req, res);
   const idToFind = req.params.id;
 
   User.findById(idToFind)
@@ -151,16 +219,19 @@ app.get("/users/:id", (req, res) => {
 });
 app.post("/users", (req, res) => {
   const body = req.body;
-  const { name, email, phone } = body;
+  const { firstname, lastname, email, phone, password } = body;
 
   if (!email || email === "") {
     return res.status(400).json({ error: "Please provide an email" });
   }
 
   const newUser = new User({
-    name,
+    firstname,
+    lastname,
     email,
     phone,
+    password,
+    role: "User",
   });
 
   newUser
@@ -173,9 +244,10 @@ app.post("/users", (req, res) => {
     });
 });
 app.put("/users/:id", (req, res) => {
+  checkToken(req, res);
   const idToUpdate = req.params.id;
   const body = req.body;
-  const { name, email, phone } = body;
+  const { firstname, lastname, email, phone, password, role } = body;
 
   User.findById(idToUpdate)
     .then((user) => {
@@ -183,9 +255,12 @@ app.put("/users/:id", (req, res) => {
         return res.status(404).json({ error: "User not found" });
       }
 
-      user.name = name;
+      user.firstname = firstname;
+      user.lastname = lastname;
       user.email = email;
       user.phone = phone;
+      user.password = password;
+      user.role = role;
 
       return user.save();
     })
@@ -197,6 +272,7 @@ app.put("/users/:id", (req, res) => {
     });
 });
 app.delete("/users/:id", (req, res) => {
+  checkToken(req, res);
   const idToDelete = req.params.id;
 
   User.findByIdAndDelete(idToDelete)
@@ -208,6 +284,36 @@ app.delete("/users/:id", (req, res) => {
     })
     .catch((error) => {
       res.status(400).json({ error: "Failed to delete user" });
+    });
+});
+app.post("/admin", (req, res) => {
+  const tokenResult = checkToken(req, res, true);
+  if(!tokenResult) {
+    return;
+  }
+  const body = req.body;
+  const { firstname, lastname, email, phone, password } = body; 
+
+  if (!email || email === "") {
+    return res.status(400).json({ error: "Please provide an email" });
+  }
+
+  const newUser = new User({
+    firstname,
+    lastname,
+    email,
+    phone,
+    password,
+    role: "Admin",
+  });
+
+  newUser
+    .save()
+    .then(() => {
+      res.status(201).json(newUser);
+    })
+    .catch((error) => {
+      res.status(400).json({ error: "Failed to create user" });
     });
 });
 

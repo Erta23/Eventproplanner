@@ -4,6 +4,10 @@ import axios from 'axios';
 import { useMatch, useParams } from 'react-router-dom';
 
 const EventDetails = () => {
+  const token = localStorage.getItem("token");
+    if (!token) {
+      window.location = "/sign-in";
+    }
   
   const [eventDetails, setEventDetails] = useState({});
   const { eventId } = useParams();
