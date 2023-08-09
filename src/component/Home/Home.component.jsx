@@ -31,7 +31,7 @@ const Home = () => {
           <Link to="/register">
             <button className="custom-btn btn-1">Register as an Attendee</button>
           </Link>
-          <Link to="/admin">
+          <Link to="/eventCreation">
             <button className="custom-btn btn-1">Organize an Event</button>
           </Link>
         </div>
