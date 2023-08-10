@@ -32,6 +32,7 @@ const EventListing = () => {
             <button onClick={() => onEventDeleted(event._id)} type="button">
               Delete
             </button>
+            <Link to={`/eventEditing/${event._id}`}>edit</Link>
           </li>
         ))}
       </ul>
