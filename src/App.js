@@ -13,6 +13,7 @@ import EventDetails from "./component/EventDetails/EventDetails.component";
 import UserLogin from "./component/UserLogin/UserLogin.component";
 import EventLogo from "./assets/EventLogo.svg";
 import "@coreui/coreui/dist/css/coreui.min.css";
+import AdminRegistration from "./component/UserRegistration/AdminRegistration.component";
 
 axios.interceptors.request.use(
   (config) => {
@@ -46,6 +47,7 @@ const App = () => {
       <Route path="/eventCreation/*" element={<EventCreation />} />
       <Route path="/events" element={<EventListing />} />
       <Route path="/register" element={<UserRegistration />} />
+      <Route path="/admin-register" element={<AdminRegistration />} />
       <Route path="/attendeeList" element={<AttendeeList />} />
       <Route path="/eventDetails/:eventId" element={<EventDetails />} />
       <Route path="/sign-in" element={<UserLogin />} />

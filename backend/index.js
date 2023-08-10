@@ -109,7 +109,7 @@ app.get("/events/:id", (req, res) => {
 
 app.put("/events/:id", (req, res) => {
   const isValid = checkToken(req, res, true);
-  if(!isValid) {
+  if (!isValid) {
     return;
   }
   const idToUpdate = req.params.id;
@@ -288,11 +288,11 @@ app.delete("/users/:id", (req, res) => {
 });
 app.post("/admin", (req, res) => {
   const tokenResult = checkToken(req, res, true);
-  if(!tokenResult) {
+  if (!tokenResult) {
     return;
   }
   const body = req.body;
-  const { firstname, lastname, email, phone, password } = body; 
+  const { firstname, lastname, email, phone, password, role } = body;
 
   if (!email || email === "") {
     return res.status(400).json({ error: "Please provide an email" });
@@ -304,7 +304,7 @@ app.post("/admin", (req, res) => {
     email,
     phone,
     password,
-    role: "Admin",
+    role: role ? role : "User",
   });
 
   newUser

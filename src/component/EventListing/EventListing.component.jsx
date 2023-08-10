@@ -6,10 +6,20 @@ import axios from "axios";
 const EventListing = () => {
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
+  const getEvents = () => {
     axios.get("http://localhost:3001/events").then((response) => {
       setEvents(response.data);
     });
+  };
+
+  const onEventDeleted = (id) => {
+    axios.delete("http://localhost:3001/events/" + id).then(() => {
+      getEvents();
+    });
+  };
+
+  useEffect(() => {
+    getEvents();
   }, []);
 
   return (
@@ -19,6 +29,9 @@ const EventListing = () => {
         {events.map((event) => (
           <li key={event.id}>
             <Link to={`/eventDetails/${event._id}`}>{event.name}</Link>
+            <button onClick={() => onEventDeleted(event._id)} type="button">
+              Delete
+            </button>
           </li>
         ))}
       </ul>
