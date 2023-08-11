@@ -23,17 +23,24 @@ const EventListing = () => {
   }, []);
 
   return (
-    <div>
+    <div className="event-listing">
       <h1>Event Listing</h1>
-      
       <ul>
         {events.map((event) => (
-          <li key={event.id}>
-            <Link to={`/eventDetails/${event._id}`}>{event.name}</Link>
-            <button onClick={() => onEventDeleted(event._id)} type="button">
+          <li key={event.id} className="event-card">
+            <Link to={`/eventDetails/${event._id}`} className="event-card-link">
+              {event.name}
+            </Link>
+            <button
+              onClick={() => onEventDeleted(event._id)}
+              className="delete-btn"
+              type="button"
+            >
               Delete
             </button>
-            <Link to={`/eventEditing/${event._id}`}>edit</Link>
+            <Link to={`/eventEditing/${event._id}`} className="edit-link">
+              Edit
+            </Link>
           </li>
         ))}
       </ul>

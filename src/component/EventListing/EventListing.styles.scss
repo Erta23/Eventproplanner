@@ -1,31 +1,37 @@
+/* EventListing.styles.scss */
+
 .event-listing {
-    padding: 20px;
-  
-    h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-  
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-  
-      li {
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-  
-        h3 {
-          font-size: 20px;
-          margin-bottom: 5px;
-        }
-  
-        p {
-          margin: 5px 0;
-        }
-      }
-    }
-  }
-  
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.event-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-card-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.edit-link {
+  text-decoration: none;
+  color: #2196f3;
+  margin-left: 10px;
+}
