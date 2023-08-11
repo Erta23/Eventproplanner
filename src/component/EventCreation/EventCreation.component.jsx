@@ -43,6 +43,13 @@ const EventCreation = () => {
             onChange={(e) => onValueChanged("organizator", e)}
           />
         </label>
+        <label>
+          Rating:
+          <input
+            type="rating"
+            onChange={(e) => onValueChanged("rating", e)}
+          />
+        </label>
         <button onClick={onEventCreated} type="button">
           Create Event
         </button>

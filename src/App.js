@@ -14,7 +14,7 @@ import UserLogin from "./component/UserLogin/UserLogin.component";
 import EventLogo from "./assets/EventLogo.svg";
 import "@coreui/coreui/dist/css/coreui.min.css";
 import AdminRegistration from "./component/UserRegistration/AdminRegistration.component";
-import EventEditing from "./EventEditing/EventEditing.component";
+import EventEditing from "./component/EventEditing/EventEditing.component";
 
 axios.interceptors.request.use(
   (config) => {

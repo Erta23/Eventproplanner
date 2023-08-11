@@ -99,7 +99,10 @@ app.get("/events", (req, res) => {
 });
 
 app.get("/events/:id", (req, res) => {
-  checkToken(req, res);
+  const tokenResult = checkToken(req, res);
+  if (!tokenResult) {
+    return;
+  }
   const idToFind = req.params.id;
 
   Event.findById(idToFind).then((event) => {
@@ -180,7 +183,10 @@ app.post("/events", (req, res) => {
 });
 
 app.delete("/events/:id", (req, res) => {
-  checkToken(req, res);
+  const tokenResult = checkToken(req, res, true);
+  if (!tokenResult) {
+    return;
+  }
   const idToDelete = req.params.id;
   Event.exists({ _id: idToDelete })
     .then((exists) => {
@@ -197,13 +203,19 @@ app.delete("/events/:id", (req, res) => {
     });
 });
 app.get("/users", (req, res) => {
-  checkToken(req, res);
+  const tokenResult = checkToken(req, res);
+  if (!tokenResult) {
+    return;
+  }
   User.find({}).then((users) => {
     res.json(users);
   });
 });
 app.get("/users/:id", (req, res) => {
-  checkToken(req, res);
+  const tokenResult = checkToken(req, res, true);
+  if (!tokenResult) {
+    return;
+  }
   const idToFind = req.params.id;
 
   User.findById(idToFind)
@@ -244,7 +256,10 @@ app.post("/users", (req, res) => {
     });
 });
 app.put("/users/:id", (req, res) => {
-  checkToken(req, res);
+  const tokenResult = checkToken(req, res, true);
+  if (!tokenResult) {
+    return;
+  }
   const idToUpdate = req.params.id;
   const body = req.body;
   const { firstname, lastname, email, phone, password, role } = body;
@@ -272,7 +287,10 @@ app.put("/users/:id", (req, res) => {
     });
 });
 app.delete("/users/:id", (req, res) => {
-  checkToken(req, res);
+  const tokenResult = checkToken(req, res, true);
+  if (!tokenResult) {
+    return;
+  }
   const idToDelete = req.params.id;
 
   User.findByIdAndDelete(idToDelete)

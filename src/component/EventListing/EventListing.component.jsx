@@ -25,6 +25,7 @@ const EventListing = () => {
   return (
     <div>
       <h1>Event Listing</h1>
+      
       <ul>
         {events.map((event) => (
           <li key={event.id}>
