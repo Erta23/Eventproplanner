@@ -7,7 +7,7 @@ const EventCreation = () => {
 
   const onValueChanged = (field, e) => {
     event[field] = e.target.value;
-    setEvent({ ...event }); // Copy the event object to trigger state update
+    setEvent({ ...event });
   };
 
   const onEventCreated = () => {

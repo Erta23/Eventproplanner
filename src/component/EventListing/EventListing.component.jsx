@@ -12,20 +12,14 @@ const EventListing = () => {
     });
   };
 
-  const onEventDeleted = (id) => {
-    axios.delete("http://localhost:3001/events/" + id).then(() => {
-      getEvents();
-    });
-  };
-
   useEffect(() => {
     getEvents();
   }, []);
 
   return (
     <div className="event-listing">
-      <Link to="/" className="home-link top-left">
-        Go to Home
+      <Link to="/" className="home-link top-right">
+        Home
       </Link>
       <h1>Event Listing</h1>
       <ul>
@@ -33,16 +27,6 @@ const EventListing = () => {
           <li key={event.id} className="event-card">
             <Link to={`/eventDetails/${event._id}`} className="event-card-link">
               {event.name}
-            </Link>
-            <button
-              onClick={() => onEventDeleted(event._id)}
-              className="delete-btn"
-              type="button"
-            >
-              Delete
-            </button>
-            <Link to={`/eventEditing/${event._id}`} className="edit-link">
-              Edit
             </Link>
           </li>
         ))}

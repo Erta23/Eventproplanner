@@ -18,7 +18,7 @@ const AdminRegistration = () => {
 
   const onUserCreated = () => {
     axios.post("http://localhost:3001/admin", user).then(() => {
-      window.location.href = "/events"; 
+      window.location.href = "/home"; 
     
     });
   };

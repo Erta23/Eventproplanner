@@ -1,54 +1,53 @@
 .event-listing {
-  padding: 40px;
-}
-
-.home-link {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  text-decoration: none;
-  color: #3498db;
-  font-weight: bold;
-}
-
-.event-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin: 20px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
-.event-card-link {
-  color: #3498db;
-  font-weight: bold;
-  text-decoration: none;
-  transition: color 0.3s;
-}
+  .home-link {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+  }
 
-.event-card-link:hover {
-  color: #2980b9;
-}
+  h1 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-.delete-btn,
-.edit-link {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+  ul {
+    list-style: none;
+    padding: 0;
 
-.edit-link {
-  background-color: #3498db;
-}
+    .event-card {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-.delete-btn:hover,
-.edit-link:hover {
-  background-color: #c0392b;
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .event-card-link {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        font-size: 20px;
+        margin-right: 20px;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #ff6b6b;
+        }
+      }
+    }
+  }
 }

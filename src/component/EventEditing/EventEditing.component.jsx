@@ -19,7 +19,7 @@ const EventEditing = () => {
       }, []);
       const onEventEdited = () => {
         axios.put(`http://localhost:3001/events/${eventId}`, event).then(response => {
-          window.location = "/events";
+          window.location = "/admin";
         })
       };
       return (
