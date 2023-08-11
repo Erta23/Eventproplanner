@@ -24,6 +24,9 @@ const EventListing = () => {
 
   return (
     <div className="event-listing">
+      <Link to="/" className="home-link top-left">
+        Go to Home
+      </Link>
       <h1>Event Listing</h1>
       <ul>
         {events.map((event) => (
@@ -47,4 +50,5 @@ const EventListing = () => {
     </div>
   );
 };
+
 export default EventListing;

@@ -2,20 +2,26 @@ import React, { useState } from "react";
 import "./UserRegistration.styles.scss";
 import axios from "axios";
 
-const UserRegistration = () => {
+const AdminRegistration = () => {
   const [user, setUser] = useState({});
+  
 
   const onValueChanged = (field, e) => {
     user[field] = e.target.value;
     setUser(user);
   };
 
- 
-
-  const onUserCreated = () => {
-    axios.post("http://localhost:3001/users", user);
+  const onRoleChanged = (e) => {
+    user.role = e.target.checked ? "Admin" : "User";
+    setUser(user);
   };
 
+  const onUserCreated = () => {
+    axios.post("http://localhost:3001/admin", user).then(() => {
+      window.location.href = "/events"; 
+    
+    });
+  };
   return (
     <div className="user-registration">
       <h2>User Registration</h2>
@@ -43,6 +49,10 @@ const UserRegistration = () => {
             onChange={(e) => onValueChanged("password", e)}
           />
         </label>
+        <label>
+          Admin:
+          <input type="checkbox" onChange={onRoleChanged} />
+        </label>
         <button onClick={onUserCreated} type="button">
           Create User
         </button>
@@ -51,4 +61,4 @@ const UserRegistration = () => {
   );
 };
 
-export default UserRegistration;
+export default AdminRegistration;

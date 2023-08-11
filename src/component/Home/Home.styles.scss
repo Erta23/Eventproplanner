@@ -1,55 +1,74 @@
-body {
-  //background: url(https://www.jotform.com/uploads/guest_420ef68d62580842/form_files/pfc_clone_64c8bdb36b067.jpg?nc=1) center center / cover no-repeat;
-}
+/* Home.styles.scss */
 
 .home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  background-image: url("../../img/backgrndimg.png");
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  //background: url(https://www.jotform.com/uploads/guest_420ef68d62580842/form_files/pfc_clone_64c8bdb36b067.jpg?nc=1) center center / cover no-repeat;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
 }
 
 .content {
-  max-width: 800px;
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 2rem;
-  background-color: #D68910(255, 255, 255, 0.8);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  text-align: center;
+  border-radius: 10px;
+  max-width: 800px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.content h2 {
+.welcome-message {
   font-size: 2.5rem;
+  color: #333;
   margin-bottom: 1rem;
 }
 
-.content p {
+.platform-description {
   font-size: 1.2rem;
+  color: #555;
   margin-bottom: 2rem;
 }
 
 .cta-buttons {
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .custom-btn {
   padding: 1rem 2rem;
-  margin: 0.5rem;
-  border: none;
-  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #007bff;
   color: #fff;
-  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
 }
 
-.btn-1 {
-  background-color:#D68910; 
+.custom-btn:hover {
+  background-color: #0056b3;
 }
 
+.signin-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  background-color: transparent;
+  color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
 
+.signin-button:hover {
+  background-color: #007bff;
+  color: #fff;
+}

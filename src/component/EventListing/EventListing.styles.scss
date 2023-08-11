@@ -1,37 +1,54 @@
-/* EventListing.styles.scss */
-
 .event-listing {
-  padding: 20px;
-  background-color: #f5f5f5;
+  padding: 40px;
+}
+
+.home-link {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
 }
 
 .event-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  margin: 10px 0;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .event-card-link {
+  color: #3498db;
+  font-weight: bold;
   text-decoration: none;
-  color: #333;
+  transition: color 0.3s;
 }
 
-.delete-btn {
-  background-color: #f44336;
+.event-card-link:hover {
+  color: #2980b9;
+}
+
+.delete-btn,
+.edit-link {
+  background-color: #e74c3c;
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
+  padding: 8px 12px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .edit-link {
-  text-decoration: none;
-  color: #2196f3;
-  margin-left: 10px;
+  background-color: #3498db;
+}
+
+.delete-btn:hover,
+.edit-link:hover {
+  background-color: #c0392b;
 }

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom"; 
 import "./UserRegistration.styles.scss";
 import axios from "axios";
 
 const AdminRegistration = () => {
   const [user, setUser] = useState({});
+  
 
   const onValueChanged = (field, e) => {
     user[field] = e.target.value;
@@ -16,9 +18,11 @@ const AdminRegistration = () => {
   };
 
   const onUserCreated = () => {
-    axios.post("http://localhost:3001/admin", user);
+    axios.post("http://localhost:3001/admin", user).then(() => {
+      window.location.href = "/events"; 
+      
+    });
   };
-
   return (
     <div className="user-registration">
       <h2>User Registration</h2>

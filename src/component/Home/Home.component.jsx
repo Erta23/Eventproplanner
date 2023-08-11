@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.styles.scss";
 import Navigation from "../Navigation/Navigation.component";
-import HomePage from "../Homepage/Homepage.component";
 import backgroundImage from "../../img/backgrndimg.png";
 import jwt_decode from "jwt-decode";
 
@@ -24,14 +23,14 @@ const Home = () => {
     }
     const tokenUser = jwt_decode(token);
     setUser(tokenUser);
-  });
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
     setUser({});
   };
 
-  return (
+   return (
     <div className="home" style={containerStyle}>
       {user.email && (
         <div>
@@ -42,9 +41,9 @@ const Home = () => {
         </div>
       )}
       {!user.email && (
-        <div>
-          <Link to="/sign-in">
-            <button className="custom-btn btn-1">Sign-In</button>
+        <div className="button-container">
+          <Link to="/sign-in" className="signin-button">
+            Sign-In
           </Link>
         </div>
       )}
@@ -62,20 +61,27 @@ const Home = () => {
           <Link to="/events">
             <button className="custom-btn btn-1">Explore Events</button>
           </Link>
-          <Link to="/register">
-            <button className="custom-btn btn-1">
-              Register as an Attendee
-            </button>
-          </Link>
-          <Link to="/admin-register">
-            <button className="custom-btn btn-1">
-              Register as an Admin
-            </button>
-          </Link>
-          {user.role === "Admin" && (
-            <Link to="/eventCreation">
-              <button className="custom-btn btn-1">Organize an Event</button>
-            </Link>
+          {user.email && (
+            <>
+              <Link to="/register">
+                <button className="custom-btn btn-1">
+                  Register as an Attendee
+                </button>
+              </Link>
+              {user.role === "Admin" && (
+                <Link to="/admin-register">
+                  <button className="custom-btn btn-1">
+                    Register as an Admin
+                  </button>
+                </Link>
+              )}
+              {user.role === "Admin" && (
+                <Link to="/eventCreation">
+                  <button className="custom-btn btn-1">Organize an Event</button>
+                </Link>
+                
+              )}
+            </>
           )}
         </div>
       </div>

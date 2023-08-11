@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navigation.styles.scss';
-import { CButton } from "@coreui/react"
+
 
 import { ReactComponent as EVENTLogo } from '../../assets/EventLogo.svg';
 
@@ -9,12 +9,13 @@ import { ReactComponent as EVENTLogo } from '../../assets/EventLogo.svg';
 const Navigation = () => {
   return (
     <nav className="navigation">
-      <Link className="logo-container" to='/'>
-        <EVENTLogo className='logo' />
-      </Link>
+  <Link className="logo-container" to="/">
+    <EVENTLogo className="logo" />
+   
+  </Link>
       <div class="search">
     <input type="text" class="search__input" placeholder="Type your text"/>
-    <CButton color="primary" variant="ghost">Primary</CButton>
+   
     {/* <button class="search__button">
         <svg class="search__icon" aria-hidden="true" viewBox="0 0 24 24">
             <g>

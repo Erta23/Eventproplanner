@@ -7,13 +7,13 @@ const EventCreation = () => {
 
   const onValueChanged = (field, e) => {
     event[field] = e.target.value;
-    setEvent(event);
+    setEvent({ ...event }); // Copy the event object to trigger state update
   };
 
   const onEventCreated = () => {
     axios.post("http://localhost:3001/events", event).then(response => {
       window.location = "/events";
-    })
+    });
   };
 
   return (
@@ -38,17 +38,11 @@ const EventCreation = () => {
         </label>
         <label>
           Organizer:
-          <input
-            type="text"
-            onChange={(e) => onValueChanged("organizator", e)}
-          />
+          <input type="text" onChange={(e) => onValueChanged("organizer", e)} />
         </label>
         <label>
           Rating:
-          <input
-            type="rating"
-            onChange={(e) => onValueChanged("rating", e)}
-          />
+          <input type="rating" onChange={(e) => onValueChanged("rating", e)} />
         </label>
         <button onClick={onEventCreated} type="button">
           Create Event
