@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./EventListing.styles.scss";
 import { Link } from "react-router-dom";
+import SearchField from "react-search-field";
 import axios from "axios";
 
 const EventListing = () => {
   const [events, setEvents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getEvents = () => {
     axios.get("http://localhost:3001/events").then((response) => {
@@ -15,6 +17,10 @@ const EventListing = () => {
   useEffect(() => {
     getEvents();
   }, []);
+  const handleSearch = (value) => {
+    setSearchTerm(value.toLowerCase());
+  };
+
 
   return (
     <div className="event-listing">
@@ -22,6 +28,13 @@ const EventListing = () => {
         Home
       </Link>
       <h1>Event Listing</h1>
+      <div className="search-box">
+        <SearchField
+          placeholder="Search events"
+          onChange={handleSearch}
+          searchText={searchTerm}
+        />
+      </div>
       <ul>
         {events.map((event) => (
           <li key={event.id} className="event-card">
