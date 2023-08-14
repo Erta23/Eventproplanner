@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./UserRegistration.styles.scss";
 import axios from "axios";
 
-const AdminRegistration = () => {
+const UserRegistration = () => {
   const [user, setUser] = useState({});
   
 
@@ -36,18 +36,18 @@ const AdminRegistration = () => {
         </label>
         <label>
           Email:
-          <input type="email" onChange={(e) => onValueChanged("email", e)} />
+          <input type="email" onChange={(e) => onValueChanged("email", e)}
+            value={user.email} placeholder="name@email.com" title="Inpit title" name="input-name" class="input_field" id="email_field"/>
         </label>
         <label>
           Phone:
-          <input type="phone" onChange={(e) => onValueChanged("phone", e)} />
+          <input type="phone" onChange={(e) => onValueChanged("phone", e)}value={user.phone} maxLength="12"placeholder="+1 213 373 4253" />
         </label>
         <label>
           Password:
           <input
             type="password"
-            onChange={(e) => onValueChanged("password", e)}
-          />
+            onChange={(e) => onValueChanged("password", e)}/>
         </label>
         <label>
           Admin:
@@ -61,4 +61,4 @@ const AdminRegistration = () => {
   );
 };
 
-export default AdminRegistration;
+export default UserRegistration;

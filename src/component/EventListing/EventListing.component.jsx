@@ -19,9 +19,8 @@ const EventListing = () => {
   }, []);
   const handleSearch = (value) => {
     setSearchTerm(value.toLowerCase());
+
   };
-
-
   return (
     <div className="event-listing">
       <Link to="/" className="home-link top-right">

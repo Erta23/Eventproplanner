@@ -27,6 +27,7 @@ const eventSchema = new mongoose.Schema({
   location: String,
   organizer: String,
   rating: Number,
+  attendees:Array,
 });
 
 const userSchema = new mongoose.Schema({
@@ -76,6 +77,7 @@ app.post("/login", (req, res) => {
 
     const token = jwt.sign(
       {
+        _id: user.id,
         firstname: user.firstname,
         lastname: user.lastname,
         email: user.email,
@@ -182,6 +184,39 @@ app.post("/events", (req, res) => {
   });
 });
 
+app.get("/events/:search", (req, res) => {
+  const searchToFind = req.params.search;
+
+  Event.findBySearch(searchToFind).then((event) => {
+    res.json(event);
+  });
+});
+app.put("/events/:id/attendees", (req, res) => {
+  const tokenResult = checkToken(req, res);
+  if (!tokenResult) {
+    return;
+  }
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, "secret");
+
+  const user = {
+    id : decodedToken._id,
+    firstname : decodedToken.firstname,
+    lastname : decodedToken.lastname,
+  };
+  const idToFind = req.params.id;
+  Event.findById(idToFind).then((event) => {
+    event.attendees = [
+      ...event.attendees,
+      user
+    ];
+    event.save().then(() => {
+      return res.status(200).end();
+    });
+  });
+});
+
+
 app.delete("/events/:id", (req, res) => {
   const tokenResult = checkToken(req, res, true);
   if (!tokenResult) {
@@ -286,6 +321,7 @@ app.put("/users/:id", (req, res) => {
       res.status(400).json({ error: "Failed to update user" });
     });
 });
+
 app.delete("/users/:id", (req, res) => {
   const tokenResult = checkToken(req, res, true);
   if (!tokenResult) {

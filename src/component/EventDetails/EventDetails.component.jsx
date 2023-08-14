@@ -6,6 +6,11 @@ import { useParams } from 'react-router-dom';
 const EventDetails = () => {
   const [eventDetails, setEventDetails] = useState({});
   const { eventId } = useParams();
+  const eventsubscribed = () => {
+    axios.put(`http://localhost:3001/events/${eventId}/attendees`).then(response => {
+      //window.location = "/";
+    })
+  };
 
   useEffect(() => {
     axios.get(`http://localhost:3001/events/${eventId}`)
@@ -30,6 +35,9 @@ const EventDetails = () => {
         </p>
         <p className="event-details-item">
           <span className="event-details-label">Rating:</span> {eventDetails.rating}
+        </p>
+        <p className="event-details-item">
+        <button onClick={eventsubscribed}>Subscribe</button>
         </p>
       </div>
     </div>
