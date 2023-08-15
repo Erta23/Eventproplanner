@@ -66,50 +66,47 @@ const checkToken = (req, res, checkAdmin = false) => {
   return true;
 };
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const body = req.body;
   const { email, password } = body;
 
-  User.findOne({ email: email, password: password }).then((user) => {
-    if (!user) {
-      return res.status(401).end();
-    }
+  const user = await User.findOne({ email: email, password: password});
+  if(!user) {
+    return res.status(401).end();
+  }
 
-    const token = jwt.sign(
-      {
-        _id: user.id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        role: user.role,
-      },
-      "secret"
-    );
-    return res.json({ token: token }).end();
-  });
+  const token = jwt.sign(
+    {
+      _id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      role: user.role,
+    },
+    "secret"
+  );
+  return res.json({ token: token }).end();
 });
 
-app.get("/events", (req, res) => {
+app.get("/events", async (req, res) => {
   const tokenResult = checkToken(req, res);
   if (!tokenResult) {
     return;
   }
 
-  Event.find({}).then((events) => {
-    res.json(events);
-  });
+  const events = await Event.find({});
+  res.json(events);
 });
 
-app.get("/events/:id", (req, res) => {
+app.get("/events/:id", async (req, res) => {
   const tokenResult = checkToken(req, res);
   if (!tokenResult) {
     return;
   }
   const idToFind = req.params.id;
 
-  Event.findById(idToFind).then((event) => {
-    res.json(event);
-  });
+  const event = await Event.findById(idToFind);
+  res.json(event);
 });
 
 app.put("/events/:id", (req, res) => {
@@ -184,13 +181,6 @@ app.post("/events", (req, res) => {
   });
 });
 
-app.get("/events/:search", (req, res) => {
-  const searchToFind = req.params.search;
-
-  Event.findBySearch(searchToFind).then((event) => {
-    res.json(event);
-  });
-});
 app.put("/events/:id/attendees", (req, res) => {
   const tokenResult = checkToken(req, res);
   if (!tokenResult) {
@@ -302,9 +292,7 @@ app.post("/users", (req, res) => {
     role: "User",
   });
 
-  newUser
-    .save()
-    .then(() => {
+  newUser.save().then(() => {
       res.status(201).json(newUser);
     })
     .catch((error) => {

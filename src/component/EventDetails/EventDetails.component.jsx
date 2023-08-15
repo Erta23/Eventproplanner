@@ -6,61 +6,38 @@ import jwt_decode from "jwt-decode";
 
 const EventDetails = () => {
   const [eventDetails, setEventDetails] = useState({});
+  const [eventName, setEventName] = useState("");
   const { eventId } = useParams();
   const [subscribed, setSubscribed] = useState(false);
-  const eventSubscribed = () => {
-    axios.put(`http://localhost:3001/events/${eventId}/attendees`)
-      .then((response) => {
-        axios.get(`http://localhost:3001/events/${eventId}`).then((response) => {
-          setEventDetails(response.data);
-          const token = localStorage.getItem("token");
-          const decodedToken = jwt_decode(token);
-          const userId = decodedToken._id;
-          setSubscribed(
-            response.data.attendees.some((attendee) => attendee.id === userId)
-          );
-        });
-        console.log("Response:", response);
-       
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
+
+  const getEventDetail = async (id) => {
+    const response = await axios.get(`http://localhost:3001/events/${id}`);
+    setEventDetails(response.data);
+    const token = localStorage.getItem("token");
+    const decodedToken = jwt_decode(token);
+    const userId = decodedToken._id;
+    setSubscribed(
+      response.data.attendees.some((attendee) => attendee.id === userId)
+    );
   };
-  const eventUnsubscribed = () => {
-    axios
-      .delete(`http://localhost:3001/events/${eventId}/attendees`)
-      .then((response) => {
-        axios.get(`http://localhost:3001/events/${eventId}`).then((response) => {
-          setEventDetails(response.data);
-          const token = localStorage.getItem("token");
-          const decodedToken = jwt_decode(token);
-          const userId = decodedToken._id;
-          setSubscribed(
-            response.data.attendees.some((attendee) => attendee.id === userId)
-          );
-        });
-        
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
+
+  const eventSubscribedAsync = async () => {
+    await axios.put(`http://localhost:3001/events/${eventId}/attendees`);
+    await getEventDetail(eventId);
+  };
+
+  const eventUnsubscribedAsync = async () => {
+    await axios.delete(`http://localhost:3001/events/${eventId}/attendees`);
+    await getEventDetail(eventId);
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/events/${eventId}`).then((response) => {
-      setEventDetails(response.data);
-      const token = localStorage.getItem("token");
-      const decodedToken = jwt_decode(token);
-      const userId = decodedToken._id;
-      setSubscribed(
-        response.data.attendees.some((attendee) => attendee.id === userId)
-      );
-    });
+    getEventDetail(eventId);
   }, []);
 
   return (
     <div className="center-content">
+      {eventName}
       <div className="event-details-container">
         <h1 className="event-details-header">{eventDetails.name}</h1>
         <p className="event-details-description">{eventDetails.description}</p>
@@ -81,9 +58,9 @@ const EventDetails = () => {
         </p>
         <p className="event-details-item">
           {subscribed ? (
-            <button onClick={eventUnsubscribed}>Unsubscribe</button>
+            <button onClick={eventUnsubscribedAsync}>Unsubscribe</button>
           ) : (
-            <button onClick={eventSubscribed}>Subscribe</button>
+            <button onClick={eventSubscribedAsync}>Subscribe</button>
           )}
         </p>
         <div className="attendees-list">
@@ -91,7 +68,9 @@ const EventDetails = () => {
           <ul>
             {eventDetails.attendees &&
               eventDetails.attendees.map((attendee) => (
-                <li key={attendee.id}>{attendee.firstname} {attendee.lastname}</li>
+                <li key={attendee.id}>
+                  {attendee.firstname} {attendee.lastname}
+                </li>
               ))}
           </ul>
         </div>
