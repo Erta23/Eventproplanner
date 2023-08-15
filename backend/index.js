@@ -27,7 +27,7 @@ const eventSchema = new mongoose.Schema({
   location: String,
   organizer: String,
   rating: Number,
-  attendees:Array,
+  attendees: Array,
 });
 
 const userSchema = new mongoose.Schema({
@@ -199,24 +199,45 @@ app.put("/events/:id/attendees", (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "secret");
 
-  const user = {
-    id : decodedToken._id,
-    firstname : decodedToken.firstname,
-    lastname : decodedToken.lastname,
-  };
+  const userId = decodedToken._id;
   const idToFind = req.params.id;
+
   Event.findById(idToFind).then((event) => {
-    event.attendees = [
-      ...event.attendees,
-      user
-    ];
+    if (event.attendees.some((attendee) => attendee.id === userId)) {
+      return res.status(400).json({ error: "User is already subscribed" });
+    }
+    const user = {
+      id: decodedToken._id,
+      firstname: decodedToken.firstname,
+      lastname: decodedToken.lastname,
+    };
+    event.attendees = [...event.attendees, user];
     event.save().then(() => {
       return res.status(200).end();
     });
   });
 });
-
-
+app.delete("/events/:id/attendees", (req, res) => {
+  const tokenResult = checkToken(req, res);
+  if (!tokenResult) {
+    return;
+  }
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, "secret");
+  const userId = decodedToken._id;
+  const idToFind = req.params.id;
+  Event.findById(idToFind).then((event) => {
+    if (!event.attendees.some((attendee) => attendee.id === userId)) {
+      return res.status(404).json({ error: "User is not subscribed" });
+    }
+    event.attendees = event.attendees.filter(
+      (attendee) => attendee.id !== userId
+    );
+    event.save().then(() => {
+      return res.status(200).end();
+    });
+  });
+});
 app.delete("/events/:id", (req, res) => {
   const tokenResult = checkToken(req, res, true);
   if (!tokenResult) {
