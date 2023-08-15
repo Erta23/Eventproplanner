@@ -8,13 +8,20 @@ const EventDetails = () => {
   const [eventDetails, setEventDetails] = useState({});
   const { eventId } = useParams();
   const [subscribed, setSubscribed] = useState(false);
-
   const eventSubscribed = () => {
-    axios
-      .put(`http://localhost:3001/events/${eventId}/attendees`)
+    axios.put(`http://localhost:3001/events/${eventId}/attendees`)
       .then((response) => {
+        axios.get(`http://localhost:3001/events/${eventId}`).then((response) => {
+          setEventDetails(response.data);
+          const token = localStorage.getItem("token");
+          const decodedToken = jwt_decode(token);
+          const userId = decodedToken._id;
+          setSubscribed(
+            response.data.attendees.some((attendee) => attendee.id === userId)
+          );
+        });
         console.log("Response:", response);
-        setSubscribed(true);
+       
       })
       .catch((error) => {
         console.log("Error:", error);
@@ -24,7 +31,16 @@ const EventDetails = () => {
     axios
       .delete(`http://localhost:3001/events/${eventId}/attendees`)
       .then((response) => {
-        setSubscribed(false);
+        axios.get(`http://localhost:3001/events/${eventId}`).then((response) => {
+          setEventDetails(response.data);
+          const token = localStorage.getItem("token");
+          const decodedToken = jwt_decode(token);
+          const userId = decodedToken._id;
+          setSubscribed(
+            response.data.attendees.some((attendee) => attendee.id === userId)
+          );
+        });
+        
       })
       .catch((error) => {
         console.log("Error:", error);
