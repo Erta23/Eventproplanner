@@ -17,7 +17,7 @@ const Home = () => {
   const user = useMemo(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      return;
+      return {};
     }
     const tokenUser = jwt_decode(token);
     return tokenUser;

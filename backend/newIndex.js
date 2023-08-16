@@ -7,6 +7,13 @@ require("dotenv").config();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
 const mongoose = require("mongoose");
 mongoose.connect(
   `mongodb://${process.env.MONGO_DB_HOST}:${process.env.MONGO_DB_PORT}/events`,
@@ -15,15 +22,6 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
-
-const cors = require("cors");
-app.use(
-  cors({
-    origin: "*",
-  })
-);
-
-const jwt = require("jsonwebtoken");
 
 const eventSchema = new mongoose.Schema({
   name: String,
@@ -47,6 +45,8 @@ const userSchema = new mongoose.Schema({
 const Event = mongoose.model("Event", eventSchema);
 
 const User = mongoose.model("User", userSchema);
+
+const jwt = require("jsonwebtoken");
 
 const checkToken = (req, res, checkAdmin = false) => {
   if (!req.headers.authorization) {
