@@ -1,27 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import "./UserRegistration.styles.scss";
 import axios from "axios";
 
 const UserRegistration = () => {
   const [user, setUser] = useState({});
-  
 
-  const onValueChanged = (field, e) => {
-    user[field] = e.target.value;
-    setUser(user);
-  };
+  const onValueChanged = useCallback((field, e) => {
+    setUser(prevUser => ({ ...prevUser, [field]: e.target.value }));
+  }, []);
 
-  const onRoleChanged = (e) => {
-    user.role = e.target.checked ? "Admin" : "User";
-    setUser(user);
-  };
+  const onRoleChanged = useCallback((e) => {
+    setUser(prevUser => ({
+      ...prevUser,
+      role: e.target.checked ? "Admin" : "User"
+    }));
+  }, []);
 
-  const onUserCreated = () => {
+  const onUserCreated = useCallback(() => {
     axios.post("/admin", user).then(() => {
-      window.location.href = "/home"; 
-    
+      window.location.href = "/home";
     });
-  };
+  }, [user]);
   return (
     <div className="user-registration">
       <h2>User Registration</h2>

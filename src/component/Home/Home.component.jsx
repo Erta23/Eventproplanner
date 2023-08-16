@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import "./Home.styles.scss";
 import Navigation from "../Navigation/Navigation.component";
@@ -23,9 +23,9 @@ const Home = () => {
     return tokenUser;
   }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("token");
-  };
+  }, []);
 
   return (
     <div className="home" style={containerStyle}>
