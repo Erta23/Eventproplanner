@@ -17,6 +17,9 @@ import AdminRegistration from "./component/UserRegistration/AdminRegistration.co
 import EventEditing from "./component/EventEditing/EventEditing.component";
 import AdminDashboard from "./component/AdminDashboard/AdminDashboard.component";
 
+console.log(process.env.REACT_APP_BASE_API_URL);
+axios.defaults.baseURL = process.env.REACT_APP_BASE_API_URL;
+
 axios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");

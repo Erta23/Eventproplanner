@@ -11,7 +11,7 @@ const LoginForm = () => {
   };
 
   const onLogin = () => {
-    axios.post("http://localhost:3001/login", user).then((response) => {
+    axios.post("/login", user).then((response) => {
       const token = response.data.token;
       localStorage.setItem("token", token);
 

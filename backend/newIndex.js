@@ -2,14 +2,19 @@ const express = require("express"); // per te importuar librarine express.js per
 const bodyParser = require("body-parser"); // TODO
 const app = express();
 
+require("dotenv").config();
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/events", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  `mongodb://${process.env.MONGO_DB_HOST}:${process.env.MONGO_DB_PORT}/events`,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 const cors = require("cors");
 app.use(
@@ -49,7 +54,7 @@ const checkToken = (req, res, checkAdmin = false) => {
     return false;
   }
   const token = req.headers.authorization.split(" ")[1];
-  const decodedToken = jwt.verify(token, "secret");
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   if (!decodedToken) {
     res.status(401).end();
     return false;
@@ -76,7 +81,7 @@ app.post("/login", async (req, res) => {
       email: user.email,
       role: user.role,
     },
-    "secret"
+    process.env.JWT_SECRET
   );
   return res.json({ token: token }).end();
 });
@@ -158,7 +163,7 @@ app.put("/events/:id/attendees", async (req, res) => {
     return;
   }
   const token = req.headers.authorization.split(" ")[1];
-  const decodedToken = jwt.verify(token, "secret");
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   const userId = decodedToken._id;
   const idToFind = req.params.id;
   const event = await Event.findById(idToFind);
@@ -181,7 +186,7 @@ app.delete("/events/:id/attendees", async (req, res) => {
     return;
   }
   const token = req.headers.authorization.split(" ")[1];
-  const decodedToken = jwt.verify(token, "secret");
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   const userId = decodedToken._id;
   const idToFind = req.params.id;
   const event = await Event.findById(idToFind);
@@ -229,79 +234,79 @@ app.get("/users/:id", async (req, res) => {
   res.json(user);
 });
 
-app.post("/users", async(req, res) => {
-    const body = req.body;
-    const {firstname, lastname, email, phone, password } = body;
-    if (!email || email === ""){
-        return res.status(400).json({ error: "Please provide an email"});
-    }
-    const newUser = new User({
-        firstname,
-        lastname,
-        email,
-        phone,
-        password,
-        role: "User",
-    });
-    await newUser.save();
-    res.json(newUser);
+app.post("/users", async (req, res) => {
+  const body = req.body;
+  const { firstname, lastname, email, phone, password } = body;
+  if (!email || email === "") {
+    return res.status(400).json({ error: "Please provide an email" });
+  }
+  const newUser = new User({
+    firstname,
+    lastname,
+    email,
+    phone,
+    password,
+    role: "User",
+  });
+  await newUser.save();
+  res.json(newUser);
 });
 
-app.put("/users/:id", async(req, res) => {
-    const tokenResult = checkToken(req, res,  true);
-    if(!tokenResult) {
-        return;
-    }
-    const idToUpdate = req.params.id;
-    const body =  req.body;
-    const{ firstname, lastname, email, phone, password, role } = body;
-    const user = await User.findById(idToUpdate);
-    if (!user) {
-        return res.status(404).json({ error: "User not found "});
-    }
-    user.firstname = firstname;
-    user.lastname = lastname;
-    user.email = email;
-    user.phone = phone;
-    user.password = password;
-    user.role = role;
-await user.save();
-res.json(updatedUser);
+app.put("/users/:id", async (req, res) => {
+  const tokenResult = checkToken(req, res, true);
+  if (!tokenResult) {
+    return;
+  }
+  const idToUpdate = req.params.id;
+  const body = req.body;
+  const { firstname, lastname, email, phone, password, role } = body;
+  const user = await User.findById(idToUpdate);
+  if (!user) {
+    return res.status(404).json({ error: "User not found " });
+  }
+  user.firstname = firstname;
+  user.lastname = lastname;
+  user.email = email;
+  user.phone = phone;
+  user.password = password;
+  user.role = role;
+  await user.save();
+  res.json(updatedUser);
 });
 
-app.delete("/users/:id", async(req, res) => {
-    const tokenResult = checkToken(req, res , true);
-    if(!tokenResult) {
-        return;
-    }
-    const idToDelete = req.params.id;
-    const deletedUser = await User.findByIdAndDelete(idToDelete);
-    if(!deletedUser) {
-        return res.status(404).json({ error: "User not found"});
-    }
-    res.json(deletedUser);
+app.delete("/users/:id", async (req, res) => {
+  const tokenResult = checkToken(req, res, true);
+  if (!tokenResult) {
+    return;
+  }
+  const idToDelete = req.params.id;
+  const deletedUser = await User.findByIdAndDelete(idToDelete);
+  if (!deletedUser) {
+    return res.status(404).json({ error: "User not found" });
+  }
+  res.json(deletedUser);
 });
 
 app.post("/admin", async (req, res) => {
-    const tokenResult = checkToken(req, res,  true);
-    if(!tokenResult) {
-        return;
-    }
-    const body = req.body;
-    const { firstname, lastname, email, phone, password, role } = body;
-    if(!email || email === "") {
-        return res.status(400).json({ error: "Please provide an email" });
-    }
-    const newUser = newUser({
-        firstname,
-        lastname,
-        email,
-        phone,
-        password,
-        role: role? role : "User",
-    });
-    await newUser.save();
-    res.json(newUser);
+  const tokenResult = checkToken(req, res, true);
+  if (!tokenResult) {
+    return;
+  }
+  const body = req.body;
+  const { firstname, lastname, email, phone, password, role } = body;
+  if (!email || email === "") {
+    return res.status(400).json({ error: "Please provide an email" });
+  }
+  const newUser = newUser({
+    firstname,
+    lastname,
+    email,
+    phone,
+    password,
+    role: role ? role : "User",
+  });
+  await newUser.save();
+  res.json(newUser);
 });
 
 app.get("/", (req, res) => {

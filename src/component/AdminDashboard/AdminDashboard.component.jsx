@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios';
-import './AdminDashboard.styles.scss';
+import axios from "axios";
+import "./AdminDashboard.styles.scss";
 
 const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
 
   const getEvents = () => {
-    axios.get("http://localhost:3001/events").then((response) => {
+    axios.get("/events").then((response) => {
       setEvents(response.data);
     });
   };
-  
-  const onEventDeleted = (id) => {
-    axios.delete("http://localhost:3001/events/" + id).then(() => {
-      getEvents();
 
+  const onEventDeleted = (id) => {
+    axios.delete("/events/" + id).then(() => {
+      getEvents();
     });
   };
   useEffect(() => {
@@ -24,7 +23,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-         <Link to="/" className="home-link top-right">
+      <Link to="/" className="home-link top-right">
         Home
       </Link>
       <h1>Admin Dashboard</h1>
@@ -39,16 +38,17 @@ const AdminDashboard = () => {
               <p>Rating: {event.rating}</p>
             </div>
             <div className="event-actions">
-            <button onClick={() => onEventDeleted(event._id)}
-              className="delete-btn" type="button"
-            >
-              Delete
-            </button>
+              <button
+                onClick={() => onEventDeleted(event._id)}
+                className="delete-btn"
+                type="button"
+              >
+                Delete
+              </button>
             </div>
             <Link to={`/eventEditing/${event._id}`} className="edit-link">
-                Edit
-              </Link>
-          
+              Edit
+            </Link>
           </div>
         ))}
       </div>

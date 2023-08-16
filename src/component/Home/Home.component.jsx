@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import "./Home.styles.scss";
 import Navigation from "../Navigation/Navigation.component";
@@ -14,23 +14,24 @@ const Home = () => {
     height: "100vh",
   };
 
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
+  const user = useMemo(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       return;
     }
     const tokenUser = jwt_decode(token);
-    setUser(tokenUser);
+    return tokenUser;
   }, []);
+
+  const isAdmin = useMemo(() => {
+    return user.role === "Admin";
+  }, [user]);
 
   const logout = () => {
     localStorage.removeItem("token");
-    setUser({});
   };
 
-   return (
+  return (
     <div className="home" style={containerStyle}>
       {user.email && (
         <div>
@@ -68,18 +69,19 @@ const Home = () => {
                   Register as an Attendee
                 </button>
               </Link>
-              {user.role === "Admin" && (
+              {isAdmin && (
                 <Link to="/admin-register">
                   <button className="custom-btn btn-1">
                     Register as an Admin
                   </button>
                 </Link>
               )}
-              {user.role === "Admin" && (
+              {isAdmin && (
                 <Link to="/eventCreation">
-                  <button className="custom-btn btn-1">Organize an Event</button>
+                  <button className="custom-btn btn-1">
+                    Organize an Event
+                  </button>
                 </Link>
-                
               )}
             </>
           )}
