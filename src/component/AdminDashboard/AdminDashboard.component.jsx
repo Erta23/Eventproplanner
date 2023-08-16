@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AdminDashboard.styles.scss";
@@ -12,11 +12,12 @@ const AdminDashboard = () => {
     });
   };
 
-  const onEventDeleted = (id) => {
+  const onEventDeleted = useCallback((id) => {
     axios.delete("/events/" + id).then(() => {
       getEvents();
     });
-  };
+  }, [getEvents]);
+
   useEffect(() => {
     getEvents();
   }, []);

@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import "./EventCreation.styles.scss";
 
 const EventCreation = () => {
   const [event, setEvent] = useState({});
 
-  const onValueChanged = (field, e) => {
-    event[field] = e.target.value;
-    setEvent({ ...event });
-  };
+  const onValueChanged = useCallback((field, e) => {
+    const updatedEvent = { ...event, [field]: e.target.value };
+    setEvent(updatedEvent);
+  }, [event]);
 
   const onEventCreated = () => {
-    axios.post("http://localhost:3001/events", event).then(response => {
+    axios.post("/events", event).then(response => {
       window.location = "/events";
     });
   };

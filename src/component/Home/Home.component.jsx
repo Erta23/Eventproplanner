@@ -23,10 +23,6 @@ const Home = () => {
     return tokenUser;
   }, []);
 
-  const isAdmin = useMemo(() => {
-    return user.role === "Admin";
-  }, [user]);
-
   const logout = () => {
     localStorage.removeItem("token");
   };
@@ -62,29 +58,7 @@ const Home = () => {
           <Link to="/events">
             <button className="custom-btn btn-1">Explore Events</button>
           </Link>
-          {user.email && (
-            <>
-              <Link to="/register">
-                <button className="custom-btn btn-1">
-                  Register as an Attendee
-                </button>
-              </Link>
-              {isAdmin && (
-                <Link to="/admin-register">
-                  <button className="custom-btn btn-1">
-                    Register as an Admin
-                  </button>
-                </Link>
-              )}
-              {isAdmin && (
-                <Link to="/eventCreation">
-                  <button className="custom-btn btn-1">
-                    Organize an Event
-                  </button>
-                </Link>
-              )}
-            </>
-          )}
+         
         </div>
       </div>
     </div>

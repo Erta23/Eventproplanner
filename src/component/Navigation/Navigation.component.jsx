@@ -9,13 +9,12 @@ import { ReactComponent as EVENTLogo } from '../../assets/EventLogo.svg';
 const Navigation = () => {
   return (
     <nav className="navigation">
-  <Link className="logo-container" to="/">
-    <EVENTLogo className="logo" />
-   
-  </Link>
+      <Link className="logo-container" to='/'>
+        <EVENTLogo className='logo' />
+      </Link>
       <div class="search">
     <input type="text" class="search__input" placeholder="Type your text"/>
-   
+    
     {/* <button class="search__button">
         <svg class="search__icon" aria-hidden="true" viewBox="0 0 24 24">
             <g>
@@ -25,9 +24,7 @@ const Navigation = () => {
     </button> */}
 </div>
       <ul className="nav-links">
-        <li>
-          <Link to="/events">Events</Link>
-        </li>
+       
         <li>
           <Link to="/register">Register</Link>
         </li>

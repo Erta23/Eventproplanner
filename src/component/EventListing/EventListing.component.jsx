@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./EventListing.styles.scss";
 import { Link } from "react-router-dom";
 import SearchField from "react-search-field";
@@ -9,7 +9,7 @@ const EventListing = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const getEvents = () => {
-    axios.get("http://localhost:3001/events").then((response) => {
+    axios.get("/events").then((response) => {
       setEvents(response.data);
     });
   };
@@ -17,10 +17,11 @@ const EventListing = () => {
   useEffect(() => {
     getEvents();
   }, []);
-  const handleSearch = (value) => {
-    setSearchTerm(value.toLowerCase());
 
-  };
+  const handleSearch = useCallback((value) => {
+    setSearchTerm(value.toLowerCase());
+  }, []);
+
   return (
     <div className="event-listing">
       <Link to="/" className="home-link top-right">

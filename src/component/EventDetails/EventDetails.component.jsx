@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./EventDetails.styles.scss";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -10,8 +10,8 @@ const EventDetails = () => {
   const { eventId } = useParams();
   const [subscribed, setSubscribed] = useState(false);
 
-  const getEventDetail = async (id) => {
-    const response = await axios.get(`http://localhost:3001/events/${id}`);
+  const getEventDetail = useCallback(async (id) => {
+    const response = await axios.get(`/events/${id}`);
     setEventDetails(response.data);
     const token = localStorage.getItem("token");
     const decodedToken = jwt_decode(token);
@@ -19,21 +19,21 @@ const EventDetails = () => {
     setSubscribed(
       response.data.attendees.some((attendee) => attendee.id === userId)
     );
-  };
+  }, []);
 
-  const eventSubscribedAsync = async () => {
-    await axios.put(`http://localhost:3001/events/${eventId}/attendees`);
+  const eventSubscribedAsync = useCallback(async () => {
+    await axios.put(`/events/${eventId}/attendees`);
     await getEventDetail(eventId);
-  };
+  }, [eventId, getEventDetail]);
 
-  const eventUnsubscribedAsync = async () => {
-    await axios.delete(`http://localhost:3001/events/${eventId}/attendees`);
+  const eventUnsubscribedAsync = useCallback(async () => {
+    await axios.delete(`/events/${eventId}/attendees`);
     await getEventDetail(eventId);
-  };
+  }, [eventId, getEventDetail]);
 
   useEffect(() => {
     getEventDetail(eventId);
-  }, []);
+  }, [getEventDetail, eventId]);
 
   return (
     <div className="center-content">
