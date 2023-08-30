@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Home.styles.scss";
 import Navigation from "../Navigation/Navigation.component";
@@ -14,17 +14,24 @@ const Home = () => {
     height: "100vh",
   };
 
+  const [userToken, setuserToken] = useState(null);
+
+  useEffect(() => {
+    setuserToken(localStorage.getItem("token"));
+  }, []);
+
   const user = useMemo(() => {
-    const token = localStorage.getItem("token");
+    const token = userToken;
     if (!token) {
       return {};
     }
     const tokenUser = jwt_decode(token);
     return tokenUser;
-  }, []);
+  }, [userToken]);
 
   const logout = useCallback(() => {
     localStorage.removeItem("token");
+    setuserToken(null);
   }, []);
 
   return (
@@ -58,7 +65,6 @@ const Home = () => {
           <Link to="/events">
             <button className="custom-btn btn-1">Explore Events</button>
           </Link>
-         
         </div>
       </div>
     </div>

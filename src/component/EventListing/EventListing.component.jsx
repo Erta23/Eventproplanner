@@ -24,7 +24,7 @@ const EventListing = () => {
 
   return (
     <div className="event-listing">
-      <Link to="/" className="home-link top-right">
+       <Link to="/" className="home-link top-right">
         Home
       </Link>
       <h1>Event Listing</h1>

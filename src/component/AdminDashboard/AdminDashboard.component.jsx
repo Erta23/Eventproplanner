@@ -12,11 +12,14 @@ const AdminDashboard = () => {
     });
   };
 
-  const onEventDeleted = useCallback((id) => {
-    axios.delete("/events/" + id).then(() => {
-      getEvents();
-    });
-  }, [getEvents]);
+  const onEventDeleted = useCallback(
+    (id) => {
+      axios.delete("/events/" + id).then(() => {
+        getEvents();
+      });
+    },
+    [getEvents]
+  );
 
   useEffect(() => {
     getEvents();
@@ -47,8 +50,14 @@ const AdminDashboard = () => {
                 Delete
               </button>
             </div>
-            <Link to={`/eventEditing/${event._id}`} className="edit-link">
-              Edit
+            <Link to={`/eventEditing/${event._id}`}>
+              <button
+                style={{ borderRadius: "4px" }}
+                className="edit-link"
+                type="button"
+              >
+                Edit
+              </button>
             </Link>
           </div>
         ))}
