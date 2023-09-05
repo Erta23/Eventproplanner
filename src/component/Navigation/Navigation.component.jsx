@@ -21,17 +21,23 @@ const Navigation = () => {
       <Link className="logo-container" to="/">
         <EVENTLogo className="logo" />
       </Link>
-      <div class="search">
-        <input type="text" class="search__input" placeholder="Type your text" />
+      <div className="search">
+        <input type="text" className="search__input" placeholder="Type your text" />
       </div>
       <ul className="nav-links">
-        {!user._id && 
-        <li>
-          <Link to="/register">Register</Link>
-        </li>}
+        {!user._id && (
+          <li>
+            <Link to="/register">Register</Link>
+          </li>
+        )}
         {isAdmin && (
           <li>
             <Link to="/admin">Admin</Link>
+          </li>
+        )}
+        {isAdmin && (
+          <li>
+            <Link to="/eventCreation">Create an Event</Link>
           </li>
         )}
       </ul>

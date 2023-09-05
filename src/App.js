@@ -4,7 +4,6 @@ import axios from "axios";
 
 import Navigation from "./component/Navigation/Navigation.component";
 import Home from "./component/Home/Home.component";
-import HomePage from "./component/Homepage/Homepage.component";
 import EventCreation from "./component/EventCreation/EventCreation.component";
 import EventListing from "./component/EventListing/EventListing.component";
 import UserRegistration from "./component/UserRegistration/UserRegistration.component";
@@ -49,6 +48,7 @@ axios.interceptors.response.use(
 const App = () => {
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/eventCreation/*" element={<EventCreation />} />
       <Route path="/events" element={<EventListing />} />
       <Route path="/register" element={<UserRegistration />} />
@@ -58,10 +58,6 @@ const App = () => {
       <Route path="/eventDetails/:eventId" element={<EventDetails />} />
       <Route path="/eventEditing/:eventId" element={<EventEditing />} />
       <Route path="/sign-in" element={<UserLogin />} />
-
-      {/* <Route path='/' element={<Navigation />}> */}
-      <Route path="/" element={<Home />} />
-      {/* <Route path="/" element={<HomePage />} /> */}
     </Routes>
   );
 };

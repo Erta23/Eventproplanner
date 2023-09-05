@@ -1,22 +1,22 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./UserLogin.styles.scss";
 
 const LoginForm = () => {
   const [user, setUser] = useState({});
 
-  const onValueChanged = useCallback((field, e) => {
-    setUser(prevUser => ({ ...prevUser, [field]: e.target.value }));
-  }, []);
+  const onValueChanged = (field, e) => {
+    user[field] = e.target.value;
+    setUser(user);
+  };
 
-  const onLogin = useCallback(() => {
+  const onLogin = () => {
     axios.post("/login", user).then((response) => {
       const token = response.data.token;
       localStorage.setItem("token", token);
-
       window.location = "/";
     });
-  }, [user]);
+  };
 
   return (
     <div className="login-form">

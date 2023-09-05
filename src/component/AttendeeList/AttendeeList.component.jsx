@@ -15,7 +15,6 @@ const AttendeeList = ({ eventId }) => {
         {attendees.map((attendee) => (
           <li key={attendee._id}>
             <p>Name: {attendee.name}</p>
-            <p>Email: {attendee.email}</p>
           </li>
         ))}
       </ul>

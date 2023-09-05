@@ -1,5 +1,5 @@
-const express = require("express"); // per te importuar librarine express.js per te ekspozuar endpoints
-const bodyParser = require("body-parser"); // TODO
+const express = require("express"); 
+const bodyParser = require("body-parser");
 const app = express();
 
 require("dotenv").config();

@@ -1,28 +1,30 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import './EventEditing.styles.scss';
+import "./EventEditing.styles.scss";
 
 const EventEditing = () => {
   const { eventId } = useParams();
 
-  const [event, setEvent] = useState({ });
+  const [event, setEvent] = useState({});
 
-  const onValueChanged = useCallback((field, e) => {
-    const updatedEvent = { ...event };
-    updatedEvent[field] = e.target.value;
-    setEvent(updatedEvent);
-  }, [event]);
+  const onValueChanged = useCallback(
+    (field, e) => {
+      const updatedEvent = { ...event };
+      updatedEvent[field] = e.target.value;
+      setEvent(updatedEvent);
+    },
+    [event]
+  );
 
   useEffect(() => {
-    axios.get(`/events/${eventId}`)
-      .then(response => {
-        setEvent(response.data);
-      });
+    axios.get(`/events/${eventId}`).then((response) => {
+      setEvent(response.data);
+    });
   }, [eventId]);
 
   const onEventEdited = useCallback(() => {
-    axios.put(`/events/${eventId}`, event).then(response => {
+    axios.put(`/events/${eventId}`, event).then((response) => {
       window.location = "/admin";
     });
   }, [eventId, event]);
@@ -36,14 +38,14 @@ const EventEditing = () => {
           type="text"
           name="name"
           value={event.name}
-          onChange={e => onValueChanged("name", e)}
+          onChange={(e) => onValueChanged("name", e)}
         />
 
         <label>Description:</label>
         <textarea
           name="description"
           value={event.description}
-          onChange={e => onValueChanged("description", e)}
+          onChange={(e) => onValueChanged("description", e)}
         />
 
         <label>Location:</label>
@@ -51,7 +53,7 @@ const EventEditing = () => {
           type="text"
           name="location"
           value={event.location}
-          onChange={e => onValueChanged("location", e)}
+          onChange={(e) => onValueChanged("location", e)}
         />
 
         <label>Organizer:</label>
@@ -59,7 +61,7 @@ const EventEditing = () => {
           type="text"
           name="organizer"
           value={event.organizer}
-          onChange={e => onValueChanged("organizer", e)}
+          onChange={(e) => onValueChanged("organizer", e)}
         />
 
         <label>Rating:</label>
@@ -67,7 +69,7 @@ const EventEditing = () => {
           type="number"
           name="rating"
           value={event.rating}
-          onChange={e => onValueChanged("rating", e)}
+          onChange={(e) => onValueChanged("rating", e)}
           min="1"
           max="5"
         />
